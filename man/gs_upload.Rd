@@ -4,7 +4,7 @@
 \alias{gs_upload}
 \title{Upload a file and convert it to a Google Sheet}
 \usage{
-gs_upload(file, sheet_title = NULL, verbose = TRUE, overwrite = FALSE)
+gs_upload(file, sheet_title = NULL, verbose = TRUE, overwrite = FALSE, parents = NULL)
 }
 \arguments{
 \item{file}{path to the file to upload}
@@ -16,6 +16,9 @@ then the name of the file will be used}
 
 \item{overwrite}{whether to overwrite an existing Sheet with the same title}
 }
+
+\item{parents}{(optional) folder ID where to upload the file, if not
+specified then the file will be uploaded to the root folder}
 \description{
 Google supports the following file types to be converted to a Google
 spreadsheet: .xls, .xlsx, .csv, .tsv, .txt, .tab, .xlsm, .xlt, .xltx, .xltm,

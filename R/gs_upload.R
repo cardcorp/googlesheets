@@ -9,6 +9,8 @@
 #' @param file path to the file to upload
 #' @param sheet_title the title of the spreadsheet; optional, if not specified
 #'   then the name of the file will be used
+#' @param parents (optional) folder ID where to upload the file, if not
+#'   specified then the file will be uploaded to the root folder
 #' @template verbose
 #' @param overwrite whether to overwrite an existing Sheet with the same title
 #'
@@ -23,7 +25,7 @@
 #' }
 #'
 #' @export
-gs_upload <- function(file, sheet_title = NULL, verbose = TRUE, overwrite = FALSE) {
+gs_upload <- function(file, sheet_title = NULL, verbose = TRUE, overwrite = FALSE, parents = NULL) {
 
   if (!file.exists(file)) {
     spf("\"%s\" does not exist!", file)
@@ -52,6 +54,10 @@ gs_upload <- function(file, sheet_title = NULL, verbose = TRUE, overwrite = FALS
   if (is.null(key)) {
     the_body <- list(title = sheet_title,
                      mimeType = "application/vnd.google-apps.spreadsheet")
+    ## specify the target folder
+    if (!missing(parents)) {
+      the_body <- c(the_body, list(parents = list(list(id = parents))))
+    }
     req <- httr::POST(.state$gd_base_url_files_v2, google_token(),
                       body = the_body, encode = "json") %>%
       httr::stop_for_status()
